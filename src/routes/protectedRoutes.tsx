@@ -1,7 +1,8 @@
 import type { RouteObject } from 'react-router-dom'
 import ProtectedRoute from '../components/ProtectedRoute'
+import DashboardPage from '../pages/DashboardPage'
 
-const isAuthenticated = false
+const isAuthenticated = true
 
 export const protectedRoutes: RouteObject[] = [
   {
@@ -9,7 +10,7 @@ export const protectedRoutes: RouteObject[] = [
     children: [
       {
         path: '/dashboard',
-        element: <div>Protected Dashboard (placeholder)</div>,
+        element: <DashboardPage />,
       },
     ],
   },
