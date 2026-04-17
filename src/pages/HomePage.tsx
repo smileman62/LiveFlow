@@ -12,7 +12,6 @@ const PARTNER_NAMES = [
 ] as const;
 
 function HomePage() {
-
   const dashboardRef = useRef<HTMLDivElement | null>(null);
   const isVisible = useInView(dashboardRef);
 
@@ -34,18 +33,18 @@ function HomePage() {
         </p>
 
         <div className="relative flex justify-center gap-4">
-          <button
-            type="button"
-            className="rounded-2xl bg-slate-900 px-8 py-4 text-base font-medium text-white shadow-lg hover:bg-slate-800 md:px-10 md:text-lg"
+          <Link
+            to="/login"
+            className="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-8 py-4 text-base font-medium text-white shadow-lg hover:bg-slate-800 md:px-10 md:text-lg"
           >
             시작하기
-          </button>
-          <button
-            type="button"
-            className="rounded-2xl border border-slate-300 bg-white px-8 py-4 text-base font-medium text-slate-800 hover:bg-slate-50 md:px-10 md:text-lg"
+          </Link>
+          <Link
+            to="/login"
+            className="inline-flex items-center justify-center rounded-2xl border border-slate-300 bg-white px-8 py-4 text-base font-medium text-slate-800 hover:bg-slate-50 md:px-10 md:text-lg"
           >
             데모 보기
-          </button>
+          </Link>
         </div>
 
         <div
@@ -79,18 +78,55 @@ function HomePage() {
         </div>
       </section>
 
+      <section className="px-6 py-16 md:py-24">
+        <div className="mx-auto mb-16 max-w-3xl text-center md:mb-20">
+          <h2 className="text-3xl font-bold text-gray-800 md:text-4xl">
+            Live Flow가 해결하는 일
+          </h2>
+          <p className="mt-4 text-base leading-relaxed text-gray-600 md:text-lg">
+            라이브 방송 전·중·후에 필요한 데이터와 자동화를 한 제품에서 이어
+            붙였습니다.
+          </p>
+        </div>
+
+        <div className="mx-auto flex max-w-6xl flex-col gap-16 md:gap-24">
+          <FeatureSpotlight
+            align="left"
+            title="멀티채널을 한 화면에서"
+            description="네이버·카카오·유튜브 등 여러 라이브 채널의 채팅과 주문 흐름을 한 대시보드에 모읍니다. 방송 중 놓치기 쉬운 문의와 구매 신호를 빠르게 잡고, 필요할 때 한 번에 안내 메시지를 보낼 수 있습니다."
+            imageSrc="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=80"
+            imageAlt="라이브 커머스와 모바일 쇼핑을 상징하는 이미지"
+          />
+          <FeatureSpotlight
+            align="right"
+            title="AI가 방송 준비를 돕습니다"
+            description="상품명·가격·플랫폼만 정리하면 오프닝·클로징 대본, 예상 FAQ, 당일 체크리스트, 공지 문구 초안을 자동으로 제안합니다. 반복 서류 작업은 줄이고, 방송 연습과 고객 응대에 시간을 쓰세요."
+            imageSrc="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=900&q=80"
+            imageAlt="팀 협업과 기획을 상징하는 이미지"
+          />
+          <FeatureSpotlight
+            align="left"
+            title="숫자로 읽는 다음 방송"
+            description="채널별 매출·전환율과 방송 시간대별 성과를 한눈에 보고, 방송 직후 요약과 개선 포인트를 정리해 드립니다. ‘언제 쿠폰을 쐈을 때 전환이 좋았는지’ 같은 인사이트로 다음 편성에 반영할 수 있습니다."
+            imageSrc="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=80"
+            imageAlt="데이터 대시보드와 분석을 상징하는 이미지"
+          />
+        </div>
+      </section>
+
       <section className="px-6 py-20">
-        <h2 className="mb-4 text-center text-2xl font-semibold text-gray-600">
+        <h2 className="mb-5 text-center text-3xl font-bold text-gray-700 md:text-4xl">
           함께하는 파트너
         </h2>
-        <p className="mx-auto mb-10 max-w-xl text-center text-sm text-gray-500">
-          주요 커머스·라이브 플랫폼과 연동해 하나의 대시보드에서 관리할 수 있습니다.
+        <p className="mx-auto mb-12 max-w-2xl text-center text-base leading-relaxed text-gray-600 md:text-lg">
+          주요 커머스·라이브 플랫폼과 연동해 하나의 대시보드에서 관리할 수
+          있습니다.
         </p>
-        <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-center gap-3">
+        <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-center gap-3 md:gap-4">
           {PARTNER_NAMES.map((name) => (
             <span
               key={name}
-              className="rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-sm font-medium text-slate-700 shadow-sm backdrop-blur-sm"
+              className="rounded-full border border-slate-200/80 bg-white/80 px-5 py-2.5 text-base font-medium text-slate-700 shadow-sm backdrop-blur-sm md:px-6 md:py-3 md:text-lg"
             >
               {name}
             </span>
@@ -100,12 +136,12 @@ function HomePage() {
 
       <section className="py-28 text-center">
         <h2 className="mb-6 text-4xl font-bold">지금 바로 시작하세요</h2>
-        <button
-          type="button"
-          className="rounded-2xl bg-slate-900 px-12 py-5 text-lg font-medium text-white shadow-xl hover:bg-slate-800"
+        <Link
+          to="/login"
+          className="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-12 py-5 text-lg font-medium text-white shadow-xl hover:bg-slate-800"
         >
           시작하기
-        </button>
+        </Link>
       </section>
 
       <footer className="mt-auto border-t border-slate-200/80 bg-white/40 px-6 py-12 backdrop-blur-sm">
@@ -113,7 +149,8 @@ function HomePage() {
           <div className="lg:col-span-2">
             <p className="text-lg font-bold text-slate-900">Live Flow</p>
             <p className="mt-2 max-w-sm text-sm leading-relaxed text-slate-600">
-              라이브 커머스 데이터를 수익으로 바꾸는 인프라. 실시간 분석과 AI 자동화를 한곳에서.
+              라이브 커머스 데이터를 수익으로 바꾸는 인프라. 실시간 분석과 AI
+              자동화를 한곳에서.
             </p>
           </div>
           <div>
@@ -159,6 +196,50 @@ function HomePage() {
           </div>
         </div>
       </footer>
+    </div>
+  );
+}
+
+type FeatureSpotlightProps = {
+  align: "left" | "right";
+  title: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+};
+
+function FeatureSpotlight({
+  align,
+  title,
+  description,
+  imageSrc,
+  imageAlt,
+}: FeatureSpotlightProps) {
+  const isTextRight = align === "right";
+
+  return (
+    <div
+      className={`flex flex-col items-stretch gap-8 md:flex-row md:items-center md:gap-12 lg:gap-16 ${isTextRight ? "md:flex-row-reverse" : ""}`}
+    >
+      <div
+        className={`md:w-1/2 ${isTextRight ? "text-left md:text-right" : "text-left"}`}
+      >
+        <h3 className="text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">
+          {title}
+        </h3>
+        <p className="mt-4 text-base leading-relaxed text-gray-600 md:text-lg">
+          {description}
+        </p>
+      </div>
+      <div className="md:w-1/2">
+        <img
+          src={imageSrc}
+          alt={imageAlt}
+          className="aspect-4/3 w-full rounded-2xl object-cover shadow-lg ring-1 ring-black/5"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
     </div>
   );
 }
