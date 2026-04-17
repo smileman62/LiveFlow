@@ -8,7 +8,7 @@ function Header() {
 
   return (
     <header className="fixed top-0 left-0 z-50 h-16 w-full border-b border-gray-200 bg-white/70 backdrop-blur-md">
-      <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-between px-6">
+      <div className="flex h-full w-full items-center justify-between px-6">
         <Link
           to={isService ? '/service' : '/'}
           className="flex items-center gap-2"

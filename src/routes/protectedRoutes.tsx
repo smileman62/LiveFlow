@@ -1,13 +1,13 @@
 import type { RouteObject } from 'react-router-dom'
 import ProtectedRoute from '../components/ProtectedRoute'
 import ServiceLayout from '../layouts/ServiceLayout'
-import ServiceAnalyticsPage from '../pages/service/ServiceAnalyticsPage'
-import ServiceAutomationPage from '../pages/service/ServiceAutomationPage'
-import ServiceOverviewPage from '../pages/service/ServiceOverviewPage'
+import BroadcastPrepPage from '../pages/service/BroadcastPrepPage'
+import MultiChannelPage from '../pages/service/MultiChannelPage'
+import PostBroadcastAnalysisPage from '../pages/service/PostBroadcastAnalysisPage'
+import SalesDashboardPage from '../pages/service/SalesDashboardPage'
 
 /**
  * App 레이아웃(path '/')의 자식으로만 사용하세요.
- * path는 절대 경로가 아닌 상대 경로(service, analytics …)입니다.
  */
 export const authenticatedRouteBranch: RouteObject = {
   element: <ProtectedRoute />,
@@ -18,15 +18,19 @@ export const authenticatedRouteBranch: RouteObject = {
       children: [
         {
           index: true,
-          element: <ServiceOverviewPage />,
+          element: <BroadcastPrepPage />,
         },
         {
-          path: 'analytics',
-          element: <ServiceAnalyticsPage />,
+          path: 'multi-channel',
+          element: <MultiChannelPage />,
         },
         {
-          path: 'automation',
-          element: <ServiceAutomationPage />,
+          path: 'sales-dashboard',
+          element: <SalesDashboardPage />,
+        },
+        {
+          path: 'post-analysis',
+          element: <PostBroadcastAnalysisPage />,
         },
       ],
     },
