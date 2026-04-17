@@ -4,7 +4,7 @@ function HomePage() {
   const [count, setCount] = useState(0)
 
   return (
-    <section className="flex min-h-screen items-center justify-center p-6">
+    <section className="flex min-h-[calc(100vh-4rem)] items-center justify-center p-6">
       <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-sm">
         <h1 className="text-2xl font-semibold">LiveFlow</h1>
         <p className="mt-2 text-sm text-slate-600">Public Home Page</p>
