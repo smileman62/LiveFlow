@@ -5,8 +5,10 @@ function App() {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-slate-50 pt-16 text-slate-900">
-        <Outlet />
+      <main className="flex min-h-screen flex-col bg-slate-50 pt-16 text-slate-900">
+        <div className="flex min-h-0 flex-1 flex-col">
+          <Outlet />
+        </div>
       </main>
     </>
   )

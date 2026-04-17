@@ -1,6 +1,7 @@
 import type { RouteObject } from 'react-router-dom'
 import App from '../App.tsx'
 import HomePage from '../pages/HomePage'
+import LoginPage from '../pages/LoginPage'
 
 export const publicRoutes: RouteObject[] = [
   {
@@ -10,6 +11,10 @@ export const publicRoutes: RouteObject[] = [
       {
         index: true,
         element: <HomePage />,
+      },
+      {
+        path: 'login',
+        element: <LoginPage />,
       },
     ],
   },
