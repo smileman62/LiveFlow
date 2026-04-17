@@ -3,6 +3,7 @@ import App from '../App.tsx'
 import HomePage from '../pages/HomePage'
 import LoginPage from '../pages/LoginPage'
 import SignupPage from '../pages/SignupPage'
+import { authenticatedRouteBranch } from './protectedRoutes'
 
 export const publicRoutes: RouteObject[] = [
   {
@@ -21,6 +22,7 @@ export const publicRoutes: RouteObject[] = [
         path: 'signup',
         element: <SignupPage />,
       },
+      authenticatedRouteBranch,
     ],
   },
 ]

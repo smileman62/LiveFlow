@@ -1,14 +1,27 @@
 import { useState, type FormEvent } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SocialLoginButtons from "../components/shared/SocialLoginButtons";
+import { useAuth } from "../contexts/AuthContext";
 
 function LoginPage() {
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  function goToService(displayName: string) {
+    login({ displayName });
+    navigate("/service", { replace: true });
+  }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     // TODO: 인증 연동
+    const trimmed = email.trim();
+    const displayName = trimmed.includes("@")
+      ? trimmed.split("@")[0] || "회원"
+      : trimmed || "회원";
+    goToService(displayName);
   }
 
   return (
@@ -71,7 +84,7 @@ function LoginPage() {
             </button>
           </form>
 
-          <SocialLoginButtons />
+          <SocialLoginButtons onTempLogin={() => goToService("회원")} />
         </div>
 
         <p className="mt-8 text-center">

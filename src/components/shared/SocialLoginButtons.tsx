@@ -1,4 +1,9 @@
-function SocialLoginButtons() {
+type SocialLoginButtonsProps = {
+  /** 임시: 소셜 버튼 클릭 시 서비스 등으로 이동 */
+  onTempLogin?: () => void
+}
+
+function SocialLoginButtons({ onTempLogin }: SocialLoginButtonsProps) {
   return (
     <div className="mt-8">
       <div className="relative mb-6 flex items-center gap-3">
@@ -15,6 +20,7 @@ function SocialLoginButtons() {
           aria-label="카카오로 로그인"
           className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#FEE500] text-[#191919] shadow-sm transition hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900"
           onClick={() => {
+            onTempLogin?.()
             // TODO: 카카오 OAuth
           }}
         >
@@ -26,6 +32,7 @@ function SocialLoginButtons() {
           aria-label="네이버로 로그인"
           className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#03C75A] text-white shadow-sm transition hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#03C75A]"
           onClick={() => {
+            onTempLogin?.()
             // TODO: 네이버 OAuth
           }}
         >
@@ -37,6 +44,7 @@ function SocialLoginButtons() {
           aria-label="Google로 로그인"
           className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-400"
           onClick={() => {
+            onTempLogin?.()
             // TODO: Google OAuth
           }}
         >

@@ -1,10 +1,4 @@
 import { createBrowserRouter } from 'react-router-dom'
 import { publicRoutes } from './publicRoutes'
-import { protectedRoutes } from './protectedRoutes'
 
-const ENABLE_PROTECTED_ROUTES = true
-
-export const appRouter = createBrowserRouter([
-  ...publicRoutes,
-  ...(ENABLE_PROTECTED_ROUTES ? protectedRoutes : []),
-])
+export const appRouter = createBrowserRouter(publicRoutes)
