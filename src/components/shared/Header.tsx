@@ -11,12 +11,18 @@ function Header() {
           <span className="text-lg font-bold text-slate-900">Live Flow</span>
         </Link>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <Link
             to="/login"
-            className="rounded-xl border border-slate-300 bg-white px-5 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+            className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 sm:px-5"
           >
             로그인
+          </Link>
+          <Link
+            to="/signup"
+            className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800 sm:px-5"
+          >
+            회원가입
           </Link>
         </div>
       </div>
