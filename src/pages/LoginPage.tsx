@@ -1,26 +1,35 @@
 import { useState, type FormEvent } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import SocialLoginButtons from "../components/shared/SocialLoginButtons";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../contexts/useAuth";
+
+function safeReturnPath(next: string | null): string {
+  if (!next || !next.startsWith("/") || next.startsWith("//")) return "/service";
+  return next;
+}
 
 function LoginPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   function goToService(displayName: string) {
     login({ displayName });
-    navigate("/service", { replace: true });
+    const target = safeReturnPath(searchParams.get("next"));
+    navigate(target, { replace: true });
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    // TODO: 인증 연동
+    // TODO: 실제 인증 API 연동 — 현재는 버튼만으로 세션 로그인(목업)
     const trimmed = email.trim();
-    const displayName = trimmed.includes("@")
-      ? trimmed.split("@")[0] || "회원"
-      : trimmed || "회원";
+    const displayName = trimmed
+      ? trimmed.includes("@")
+        ? trimmed.split("@")[0] || "회원"
+        : trimmed
+      : "회원";
     goToService(displayName);
   }
 
@@ -43,7 +52,11 @@ function LoginPage() {
             Live Flow 로그인
           </h1>
 
-          <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
+          <form
+            className="flex flex-col gap-3"
+            noValidate
+            onSubmit={handleSubmit}
+          >
             <div>
               <label htmlFor="login-email" className="sr-only">
                 이메일
@@ -56,8 +69,7 @@ function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="login-input w-full rounded-lg border border-slate-200 bg-white px-5 py-4 text-base leading-normal text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:ring-2 focus:ring-slate-900/15"
-                placeholder="이메일"
-                required
+                placeholder="이메일 (비워두면 목업 로그인)"
               />
             </div>
             <div>
@@ -72,8 +84,7 @@ function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="login-input w-full rounded-lg border border-slate-200 bg-white px-5 py-4 text-base leading-normal text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:ring-2 focus:ring-slate-900/15"
-                placeholder="비밀번호"
-                required
+                placeholder="비밀번호 (목업에서는 무시)"
               />
             </div>
             <button

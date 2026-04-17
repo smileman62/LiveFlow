@@ -1,14 +1,18 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { useAuth } from '../contexts/AuthContext'
+import { useAuth } from '../contexts/useAuth'
 
 function ProtectedRoute() {
   const { user } = useAuth()
   const location = useLocation()
 
   if (!user) {
-    return (
-      <Navigate to="/login" replace state={{ from: location.pathname }} />
-    )
+    const params = new URLSearchParams()
+    const next = `${location.pathname}${location.search}`
+    if (next && next !== '/login') {
+      params.set('next', next)
+    }
+    const to = params.toString() ? `/login?${params}` : '/login'
+    return <Navigate to={to} replace />
   }
 
   return <Outlet />
