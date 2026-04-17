@@ -1,45 +1,24 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+
+const PARTNER_NAMES = [
+  "네이버",
+  "쿠팡",
+  "카카오",
+  "11번가",
+  "G마켓",
+  "SSG",
+  "옥션",
+] as const;
 
 function HomePage() {
-  const partners = [
-    {
-      name: "NAVER",
-      src: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Naver_Logotype.svg",
-    },
-    {
-      name: "COUPANG",
-      src: "https://upload.wikimedia.org/wikipedia/commons/1/1e/Coupang_logo.svg",
-    },
-    {
-      name: "KAKAO",
-      src: "https://upload.wikimedia.org/wikipedia/commons/6/6f/Kakao_CI_yellow.svg",
-    },
-    {
-      name: "11ST",
-      src: "https://upload.wikimedia.org/wikipedia/commons/7/7a/11st_logo.svg",
-    },
-    {
-      name: "GMARKET",
-      src: "https://upload.wikimedia.org/wikipedia/commons/8/83/Gmarket_logo.svg",
-    },
-    {
-      name: "SSG",
-      src: "https://upload.wikimedia.org/wikipedia/commons/5/5b/SSG.COM_logo.svg",
-    },
-    {
-      name: "AUCTION",
-      src: "https://upload.wikimedia.org/wikipedia/commons/2/2b/Auction_logo.svg",
-    },
-  ];
 
   const dashboardRef = useRef<HTMLDivElement | null>(null);
   const isVisible = useInView(dashboardRef);
 
   return (
-    <div className="bg-linear-to-b from-white to-gray-100 text-gray-900">
+    <div className="flex w-full min-h-[calc(100dvh-4rem)] flex-col bg-linear-to-b from-blue-100 via-purple-100 to-pink-100 text-gray-900">
       <section className="relative overflow-hidden px-6 py-28 text-center">
-        <div className="absolute inset-0 bg-linear-to-r from-blue-100 via-purple-100 to-pink-100 opacity-40 blur-3xl" />
-
         <h1 className="relative mb-6 text-5xl leading-tight font-extrabold text-gray-900 md:text-6xl">
           라이브 커머스 데이터를
           <br />
@@ -100,25 +79,22 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="overflow-hidden py-20">
-        <h2 className="mb-10 text-center text-2xl font-semibold text-gray-600">
+      <section className="px-6 py-20">
+        <h2 className="mb-4 text-center text-2xl font-semibold text-gray-600">
           함께하는 파트너
         </h2>
-        <div className="relative w-full">
-          <div className="animate-scroll flex w-max items-center gap-14 whitespace-nowrap">
-            {[...partners, ...partners].map((partner, index) => (
-              <div
-                key={`${partner.name}-${index}`}
-                className="flex h-20 min-w-[180px] items-center justify-center rounded-2xl bg-white px-6 shadow-md"
-              >
-                <img
-                  src={partner.src}
-                  alt={partner.name}
-                  className="max-h-10 object-contain grayscale opacity-70 transition hover:grayscale-0 hover:opacity-100"
-                />
-              </div>
-            ))}
-          </div>
+        <p className="mx-auto mb-10 max-w-xl text-center text-sm text-gray-500">
+          주요 커머스·라이브 플랫폼과 연동해 하나의 대시보드에서 관리할 수 있습니다.
+        </p>
+        <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-center gap-3">
+          {PARTNER_NAMES.map((name) => (
+            <span
+              key={name}
+              className="rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-sm font-medium text-slate-700 shadow-sm backdrop-blur-sm"
+            >
+              {name}
+            </span>
+          ))}
         </div>
       </section>
 
@@ -132,8 +108,56 @@ function HomePage() {
         </button>
       </section>
 
-      <footer className="py-10 text-center text-gray-400">
-        © 2026 Live Flow
+      <footer className="mt-auto border-t border-slate-200/80 bg-white/40 px-6 py-12 backdrop-blur-sm">
+        <div className="mx-auto grid max-w-5xl gap-10 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="lg:col-span-2">
+            <p className="text-lg font-bold text-slate-900">Live Flow</p>
+            <p className="mt-2 max-w-sm text-sm leading-relaxed text-slate-600">
+              라이브 커머스 데이터를 수익으로 바꾸는 인프라. 실시간 분석과 AI 자동화를 한곳에서.
+            </p>
+          </div>
+          <div>
+            <p className="text-xs font-semibold tracking-wide text-slate-400 uppercase">
+              서비스
+            </p>
+            <ul className="mt-3 space-y-2 text-sm text-slate-600">
+              <li>
+                <Link to="/login" className="hover:text-slate-900">
+                  로그인
+                </Link>
+              </li>
+              <li>
+                <Link to="/signup" className="hover:text-slate-900">
+                  회원가입
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p className="text-xs font-semibold tracking-wide text-slate-400 uppercase">
+              문의
+            </p>
+            <ul className="mt-3 space-y-2 text-sm text-slate-600">
+              <li>
+                <span className="text-slate-500">이메일 (준비 중)</span>
+              </li>
+              <li>
+                <span className="text-slate-500">사업자 정보 (준비 중)</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="mx-auto mt-10 flex max-w-5xl flex-col items-center justify-between gap-4 border-t border-slate-200/60 pt-8 text-center text-xs text-slate-500 sm:flex-row sm:text-left">
+          <p>© {new Date().getFullYear()} Live Flow. All rights reserved.</p>
+          <div className="flex gap-6">
+            <button type="button" className="hover:text-slate-800">
+              이용약관
+            </button>
+            <button type="button" className="hover:text-slate-800">
+              개인정보처리방침
+            </button>
+          </div>
+        </div>
       </footer>
     </div>
   );
