@@ -26,10 +26,15 @@ function HomePage() {
           </span>
         </h1>
 
-        <p className="relative mb-10 text-lg text-gray-600 md:text-xl">
+        <p className="relative mb-10 text-lg leading-relaxed text-gray-600 md:text-xl">
           실시간 데이터 분석 + AI 전략 자동화
           <br />
-          Live Flow 하나로 끝내세요
+          <span className="mt-2 inline-flex flex-wrap items-baseline justify-center gap-x-1.5 gap-y-1">
+            <span className="bg-linear-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-2xl font-extrabold tracking-tight text-transparent drop-shadow-sm md:text-3xl">
+              Live Flow
+            </span>
+            <span className="text-gray-600">하나로 끝내세요</span>
+          </span>
         </p>
 
         <div className="relative flex justify-center gap-4">
@@ -144,55 +149,85 @@ function HomePage() {
         </Link>
       </section>
 
-      <footer className="mt-auto border-t border-slate-200/80 bg-white/40 px-6 py-12 backdrop-blur-sm">
-        <div className="mx-auto grid max-w-5xl gap-10 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="lg:col-span-2">
-            <p className="text-lg font-bold text-slate-900">Live Flow</p>
-            <p className="mt-2 max-w-sm text-sm leading-relaxed text-slate-600">
-              라이브 커머스 데이터를 수익으로 바꾸는 인프라. 실시간 분석과 AI
-              자동화를 한곳에서.
-            </p>
+      <footer className="mt-auto border-t border-slate-200/80 bg-white/40 px-6 py-10 backdrop-blur-sm">
+        <div className="mx-auto max-w-5xl">
+          <div className="flex flex-col gap-8 md:flex-row md:items-start md:gap-10 lg:gap-12">
+            <div className="min-w-0 flex-1">
+              <h2 className="text-xs font-semibold tracking-wide text-slate-400 uppercase">
+                연락처 정보
+              </h2>
+              <dl className="mt-3 flex flex-col gap-4 text-sm text-slate-600">
+                <div className="flex min-w-0 flex-col gap-0.5">
+                  <dt className="shrink-0 font-medium text-slate-800">
+                    회사 주소
+                  </dt>
+                  <dd className="text-slate-500">
+                    (준비 중) 사업자 등록 후 공개 예정
+                  </dd>
+                </div>
+                <div className="flex min-w-0 flex-col gap-0.5">
+                  <dt className="shrink-0 font-medium text-slate-800">
+                    전화번호
+                  </dt>
+                  <dd className="text-slate-500">
+                    (준비 중) 대표 번호 안내 예정
+                  </dd>
+                </div>
+                <div className="flex min-w-0 flex-col gap-0.5">
+                  <dt className="shrink-0 font-medium text-slate-800">
+                    이메일 주소
+                  </dt>
+                  <dd className="text-slate-500">
+                    (준비 중) 문의 메일 안내 예정
+                  </dd>
+                </div>
+              </dl>
+            </div>
+
+            <div className="min-w-0 flex-1 border-t border-slate-200/60 pt-8 md:border-t-0 md:border-l md:border-slate-200/60 md:pt-0 md:pl-10 lg:pl-12">
+              <h2 className="text-xs font-semibold tracking-wide text-slate-400 uppercase">
+                정책 관련
+              </h2>
+              <ul className="mt-3 flex flex-col gap-2 text-sm">
+                <li>
+                  <button
+                    type="button"
+                    className="text-slate-600 underline-offset-4 hover:text-slate-900 hover:underline"
+                  >
+                    개인정보 처리방침
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    className="text-slate-600 underline-offset-4 hover:text-slate-900 hover:underline"
+                  >
+                    사이트 이용약관
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    className="text-slate-600 underline-offset-4 hover:text-slate-900 hover:underline"
+                  >
+                    쿠키 정책
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
-          <div>
-            <p className="text-xs font-semibold tracking-wide text-slate-400 uppercase">
-              서비스
+
+          <div className="mt-8 flex flex-col gap-3 border-t border-slate-200/60 pt-8 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+            <p>
+              <span className="font-medium text-slate-600">웹사이트 소유자</span>
+              <span className="mx-2 hidden text-slate-300 sm:inline">|</span>
+              <span className="mt-1 block sm:mt-0 sm:inline">
+                Live Flow (상세 법인·상호명은 연락처 정보 확정 후 표기 예정)
+              </span>
             </p>
-            <ul className="mt-3 space-y-2 text-sm text-slate-600">
-              <li>
-                <Link to="/login" className="hover:text-slate-900">
-                  로그인
-                </Link>
-              </li>
-              <li>
-                <Link to="/signup" className="hover:text-slate-900">
-                  회원가입
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <p className="text-xs font-semibold tracking-wide text-slate-400 uppercase">
-              문의
+            <p className="shrink-0 text-slate-500">
+              © {new Date().getFullYear()} Live Flow. All rights reserved.
             </p>
-            <ul className="mt-3 space-y-2 text-sm text-slate-600">
-              <li>
-                <span className="text-slate-500">이메일 (준비 중)</span>
-              </li>
-              <li>
-                <span className="text-slate-500">사업자 정보 (준비 중)</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className="mx-auto mt-10 flex max-w-5xl flex-col items-center justify-between gap-4 border-t border-slate-200/60 pt-8 text-center text-xs text-slate-500 sm:flex-row sm:text-left">
-          <p>© {new Date().getFullYear()} Live Flow. All rights reserved.</p>
-          <div className="flex gap-6">
-            <button type="button" className="hover:text-slate-800">
-              이용약관
-            </button>
-            <button type="button" className="hover:text-slate-800">
-              개인정보처리방침
-            </button>
           </div>
         </div>
       </footer>
