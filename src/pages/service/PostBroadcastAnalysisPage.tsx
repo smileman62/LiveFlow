@@ -1,7 +1,11 @@
+import ServicePageHeader from '../../components/service/ServicePageHeader'
+
 function PostBroadcastAnalysisPage() {
   return (
-    <div className="p-6 md:p-8">
-      <div className="mx-auto max-w-3xl overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+    <div className="flex min-h-dvh flex-col bg-[#f9fafb]">
+      <ServicePageHeader title="방송 후 분석" />
+      <div className="min-h-0 flex-1 overflow-y-auto p-6 md:p-8">
+        <div className="mx-auto max-w-3xl overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
         <div className="flex items-center justify-between bg-[#006064] px-4 py-2.5 text-white">
           <span className="text-sm font-medium">Live Flow | 방송 후 성과 분석</span>
           <span className="text-[11px] opacity-70">2026.03.21 오후 2시 방송</span>
@@ -35,7 +39,7 @@ function PostBroadcastAnalysisPage() {
           </p>
 
           <h2 className="mb-2.5 text-[13px] font-medium text-slate-900">
-            AI 성과 인사이트 & 다음 방송 전략 제안
+            AI 성과 인사이트 · 다음 방송 전략 제안
           </h2>
 
           <div className="mb-2.5 rounded-md border-l-[3px] border-emerald-500 bg-emerald-50 p-3">
@@ -65,6 +69,7 @@ function PostBroadcastAnalysisPage() {
           >
             다음 방송 전략 전체 보기 ↗
           </button>
+        </div>
         </div>
       </div>
     </div>

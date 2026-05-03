@@ -1,291 +1,161 @@
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import ServicePageHeader, {
+  LiveBroadcastStatusMeta,
+} from '../../components/service/ServicePageHeader'
+import KeyMetricsCards from '../../components/service/liveBroadcast/KeyMetricsCards'
+import KeyProductPerformanceCard from '../../components/service/liveBroadcast/KeyProductPerformanceCard'
+import LiveVideoPanel from '../../components/service/liveBroadcast/LiveVideoPanel'
+import RealtimeAnalysisPanel, { type ChatMessage } from '../../components/service/liveBroadcast/RealtimeAnalysisPanel'
+import SentimentAnalysisCard from '../../components/service/liveBroadcast/SentimentAnalysisCard'
+import ViewerInflowCard from '../../components/service/liveBroadcast/ViewerInflowCard'
+import ViewerReactionStrip from '../../components/service/liveBroadcast/ViewerReactionStrip'
+import ViewerSalesChart from '../../components/service/liveBroadcast/ViewerSalesChart'
 
-type Platform = 'naver' | 'youtube' | 'kakao'
-type MsgType = 'auto' | 'buy' | 'normal'
+const VOICE_SNIPPETS = [
+  '지금 보여드리는 가방은 실제 착용감이 가볍고, 내부 수납이 넉넉해서 데일리로 좋아요.',
+  '채팅에서 가격 문의가 많이 올라오고 있어요. 혜택 구간을 짧게 정리해서 안내해 주세요.',
+  '“예뻐요” 반응이 이어지고 있습니다. 컬러 옵션을 한 번 더 비교해 보여주면 좋겠어요.',
+]
 
-type Msg = {
-  pf: Platform
-  user: string
-  text: string
-  type: MsgType
-  auto?: string
-  buy?: string
-}
-
-const INITIAL_MSGS: Msg[] = [
+const INITIAL_CHAT: ChatMessage[] = [
   {
-    pf: 'naver',
-    user: '감귤팬',
-    text: '배송 얼마나 걸려요?',
-    auto: '자동응답: 주문 후 1~2일 내 출고, 3일 안에 받아보실 수 있습니다.',
-    type: 'auto',
+    id: '1',
+    user: '뷰티러버',
+    initials: '뷰',
+    avatarClass: 'bg-pink-500',
+    time: '12:28:01',
+    text: '이 가방 실물 색상이랑 비슷한가요?',
   },
   {
-    pf: 'youtube',
-    user: 'viewer_82',
-    text: '이거 진짜 맛있어 보이는데 살까요?',
-    buy: '구매 신호 감지 — 쿠폰 메시지 발송 추천',
-    type: 'buy',
+    id: '2',
+    user: '쇼핑요정',
+    initials: '쇼',
+    avatarClass: 'bg-violet-500',
+    time: '12:28:04',
+    text: '스트랩 길이 조절 되나요?',
   },
   {
-    pf: 'kakao',
-    user: '도토리맘',
-    text: '첨가물 없는 거 맞죠?',
-    type: 'normal',
+    id: '3',
+    user: '직장인88',
+    initials: '직',
+    avatarClass: 'bg-sky-500',
+    time: '12:28:09',
+    text: '노트북 13인치 들어가요?',
   },
   {
-    pf: 'naver',
-    user: '건강지킴이',
-    text: '교환은 어떻게 하나요?',
-    auto: '자동응답: 수령 후 7일 이내 제품 이상 시 100% 교환 가능합니다.',
-    type: 'auto',
-  },
-  {
-    pf: 'youtube',
-    user: 'juice_lover',
-    text: '100개 한정이면 빨리 사야겠다!!',
-    buy: '구매 신호 감지 — 긴급성 강조 멘트 추천',
-    type: 'buy',
-  },
-  {
-    pf: 'naver',
-    user: '제주사랑',
-    text: '당도는 어떤가요?',
-    type: 'normal',
-  },
-  {
-    pf: 'kakao',
-    user: '다이어터22',
-    text: '칼로리가 어떻게 되나요?',
-    type: 'normal',
-  },
-  {
-    pf: 'naver',
-    user: '선물용구매',
-    text: '선물포장 되나요?',
-    type: 'normal',
+    id: '4',
+    user: '귀차니즘',
+    initials: '귀',
+    avatarClass: 'bg-amber-500',
+    time: '12:28:12',
+    text: '오늘 방송 한정 할인 맞죠? 바로 살게요!',
   },
 ]
 
-type Filter = 'all' | Platform | 'buy'
-
-const PF_LABEL: Record<Platform, string> = {
-  naver: '네이버',
-  youtube: '유튜브',
-  kakao: '카카오',
+function formatElapsed(totalSeconds: number) {
+  const h = Math.floor(totalSeconds / 3600)
+  const m = Math.floor((totalSeconds % 3600) / 60)
+  const s = totalSeconds % 60
+  return [h, m, s].map((n) => String(n).padStart(2, '0')).join(':')
 }
 
-function MultiChannelPage() {
-  const [msgs, setMsgs] = useState<Msg[]>(INITIAL_MSGS)
-  const [filter, setFilter] = useState<Filter>('all')
+function nowTimeString() {
+  const d = new Date()
+  return [d.getHours(), d.getMinutes(), d.getSeconds()]
+    .map((n) => String(n).padStart(2, '0'))
+    .join(':')
+}
+
+export default function MultiChannelPage() {
+  const [viewers, setViewers] = useState(1234)
+  const [elapsed, setElapsed] = useState(5025)
+  const [voiceIdx, setVoiceIdx] = useState(0)
+  const [messages, setMessages] = useState<ChatMessage[]>(INITIAL_CHAT)
   const [input, setInput] = useState('')
-  const [viewers, setViewers] = useState(1247)
-  const [orderCount, setOrderCount] = useState(23)
 
-  const filtered = useMemo(() => {
-    return msgs.filter((m) => {
-      if (filter === 'all') return true
-      if (filter === 'buy') return m.type === 'buy'
-      return m.pf === filter
-    })
-  }, [msgs, filter])
+  const voiceTranscript = VOICE_SNIPPETS[voiceIdx % VOICE_SNIPPETS.length]
 
-  const chatCount = msgs.length
-  const cvr = viewers > 0 ? ((orderCount / viewers) * 100).toFixed(1) : '0.0'
-
-  const sendMsg = useCallback(() => {
-    const t = input.trim()
-    if (!t) return
-    setMsgs((prev) => [
-      ...prev,
-      { pf: 'naver', user: '셀러', text: `[전체발송] ${t}`, type: 'normal' },
-    ])
-    setInput('')
-    setViewers((v) => v + Math.floor(Math.random() * 10 - 3))
-  }, [input])
-
-  const sendCoupon = useCallback(() => {
-    setMsgs((prev) => [
-      ...prev,
-      {
-        pf: 'naver',
-        user: 'Live Flow',
-        text: '지금 쿠폰 코드 LIVE10 입력하시면 10% 추가 할인!',
-        type: 'normal',
-      },
-    ])
-    window.alert('전체 채널에 쿠폰 메시지가 발송되었습니다!')
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setElapsed((t) => t + 1)
+    }, 1000)
+    return () => window.clearInterval(id)
   }, [])
 
   useEffect(() => {
     const id = window.setInterval(() => {
-      setViewers((v) => Math.max(100, v + Math.floor(Math.random() * 10 - 3)))
-      setOrderCount((o) => (Math.random() > 0.6 ? o + 1 : o))
+      setVoiceIdx((i) => i + 1)
+    }, 6000)
+    return () => window.clearInterval(id)
+  }, [])
+
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setViewers((v) => Math.max(800, v + Math.floor(Math.random() * 9 - 4)))
     }, 3000)
     return () => window.clearInterval(id)
   }, [])
 
+  const participantCount = useMemo(() => viewers, [viewers])
+
+  const sendMsg = useCallback(() => {
+    const t = input.trim()
+    if (!t) return
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: `${Date.now()}`,
+        user: '셀러',
+        initials: '셀',
+        avatarClass: 'bg-indigo-600',
+        time: nowTimeString(),
+        text: t,
+      },
+    ])
+    setInput('')
+  }, [input])
+
   return (
-    <div className="p-6 md:p-8">
-      <div className="mx-auto max-w-5xl overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-        <div className="flex items-center justify-between bg-[#1A3C6E] px-4 py-2.5 text-white">
-          <span className="text-sm font-medium">Live Flow | 멀티채널 통합 관리</span>
-          <span className="flex items-center gap-1 rounded-full bg-[#E8530A] px-2 py-0.5 text-[11px]">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" />
-            LIVE 방송 중
-          </span>
+    <div className="flex min-h-dvh flex-col bg-[#f9fafb]">
+      <ServicePageHeader
+        title="라이브 방송 분석 대시보드"
+        meta={
+          <LiveBroadcastStatusMeta
+            viewers={viewers}
+            broadcastElapsed={formatElapsed(elapsed)}
+          />
+        }
+      />
+      <div className="min-h-0 flex-1 overflow-y-auto">
+        <div className="mx-auto max-w-[1600px] space-y-5 p-4 md:p-6">
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-[1fr_minmax(280px,360px)] lg:items-stretch">
+          <LiveVideoPanel viewers={viewers} voiceTranscript={voiceTranscript} />
+          <RealtimeAnalysisPanel
+            messages={messages}
+            participantCount={participantCount}
+            input={input}
+            onInputChange={setInput}
+            onSend={sendMsg}
+          />
         </div>
-
-        <div className="grid grid-cols-2 gap-2 border-x border-b border-slate-200 bg-slate-50 p-3 sm:grid-cols-4">
-          <Stat num={viewers.toLocaleString()} label="실시간 시청자" />
-          <Stat num={String(chatCount)} label="누적 채팅 수" />
-          <Stat num={String(orderCount)} label="주문 건수" />
-          <Stat num={`${cvr}%`} label="전환율" />
+        <div className="flex min-h-0 flex-col gap-5">
+          <div className="flex min-h-0 flex-col gap-5 lg:flex-row lg:items-stretch lg:gap-5">
+            <div className="min-w-0 flex-1">
+              <ViewerSalesChart />
+            </div>
+            <aside className="flex w-full shrink-0 flex-col gap-4 lg:w-[min(280px,100%)] xl:w-[300px]">
+              <ViewerInflowCard />
+              <KeyMetricsCards />
+            </aside>
+          </div>
+          <ViewerReactionStrip />
+          <div className="grid min-h-0 gap-5 md:grid-cols-2">
+            <SentimentAnalysisCard />
+            <KeyProductPerformanceCard />
+          </div>
         </div>
-
-        <div className="grid grid-cols-1 border-x border-b border-slate-200 md:grid-cols-[1fr_280px]">
-          <div className="border-b border-slate-200 md:border-r md:border-b-0">
-            <div className="flex flex-wrap gap-1.5 border-b border-slate-200 p-2.5">
-              <FilterBtn active={filter === 'all'} onClick={() => setFilter('all')}>
-                전체
-              </FilterBtn>
-              <FilterBtn active={filter === 'naver'} onClick={() => setFilter('naver')}>
-                네이버
-              </FilterBtn>
-              <FilterBtn active={filter === 'youtube'} onClick={() => setFilter('youtube')}>
-                유튜브
-              </FilterBtn>
-              <FilterBtn active={filter === 'kakao'} onClick={() => setFilter('kakao')}>
-                카카오
-              </FilterBtn>
-              <FilterBtn active={filter === 'buy'} onClick={() => setFilter('buy')}>
-                구매신호
-              </FilterBtn>
-            </div>
-            <div className="h-[220px] overflow-y-auto p-2.5 text-xs">
-              {filtered.map((m, i) => (
-                <div key={`${m.user}-${i}`} className="mb-2.5">
-                  <div className="mb-0.5 flex items-center gap-1.5">
-                    <PlatformBadge pf={m.pf} />
-                    <span className="text-[11px] font-medium">{m.user}</span>
-                  </div>
-                  <p className="leading-snug text-slate-800">{m.text}</p>
-                  {m.auto && (
-                    <div className="mt-1 rounded-md bg-sky-50 px-2 py-1.5 text-[11px] text-sky-900">
-                      AI 자동응답 {m.auto}
-                    </div>
-                  )}
-                  {m.buy && (
-                    <div className="mt-1 rounded-md bg-amber-50 px-2 py-1.5 text-[11px] text-amber-900">
-                      구매신호 {m.buy}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-            <div className="flex gap-2 border-t border-slate-200 p-2.5">
-              <input
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && sendMsg()}
-                placeholder="전체 채널에 메시지 전송..."
-                className="min-w-0 flex-1 rounded-md border border-slate-200 px-2 py-1.5 text-xs"
-              />
-              <button
-                type="button"
-                onClick={sendMsg}
-                className="shrink-0 rounded-md bg-[#1A3C6E] px-3.5 py-1.5 text-xs text-white"
-              >
-                전송
-              </button>
-            </div>
-          </div>
-
-          <div className="p-3">
-            <p className="mb-2 text-xs font-medium text-slate-500">실시간 알림</p>
-            <div className="mb-2 rounded-md bg-amber-50 p-2 text-xs text-amber-900">
-              구매 신호 3건 감지 — 쿠폰 발행을 추천합니다
-            </div>
-            <div className="mb-2 rounded-md bg-sky-50 p-2 text-xs text-sky-900">
-              배송 문의 5건 자동 응답 완료
-            </div>
-            <button
-              type="button"
-              onClick={sendCoupon}
-              className="mt-2 w-full rounded-md bg-[#E8530A] py-2 text-xs text-white"
-            >
-              지금 쿠폰 발행하기
-            </button>
-            <div className="mt-3.5">
-              <p className="mb-2 text-xs font-medium text-slate-500">자동 응답 현황</p>
-              <div className="text-xs leading-8 text-slate-600">
-                배송 문의 → <span className="text-emerald-600">자동 응답</span>
-                <br />
-                교환·환불 → <span className="text-emerald-600">자동 응답</span>
-                <br />
-                재고 문의 → <span className="text-emerald-600">자동 응답</span>
-                <br />
-                기타 문의 → <span className="text-amber-700">셀러 직접 응답</span>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
   )
 }
-
-function Stat({ num, label }: { num: string; label: string }) {
-  return (
-    <div className="rounded-md border border-slate-200 bg-white p-2.5 text-center">
-      <div className="text-xl font-medium text-[#1A3C6E]">{num}</div>
-      <div className="mt-0.5 text-[11px] text-slate-500">{label}</div>
-    </div>
-  )
-}
-
-function FilterBtn({
-  children,
-  active,
-  onClick,
-}: {
-  children: ReactNode
-  active: boolean
-  onClick: () => void
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`cursor-pointer rounded-full border px-2.5 py-1 text-[11px] ${
-        active
-          ? 'border-[#1A3C6E] bg-[#1A3C6E] text-white'
-          : 'border-slate-200 bg-white text-slate-600'
-      }`}
-    >
-      {children}
-    </button>
-  )
-}
-
-function PlatformBadge({ pf }: { pf: Platform }) {
-  const cls =
-    pf === 'naver'
-      ? 'bg-emerald-50 text-emerald-900'
-      : pf === 'youtube'
-        ? 'bg-red-50 text-red-900'
-        : 'bg-yellow-50 text-yellow-900'
-  return (
-    <span className={`rounded-full px-1.5 py-0.5 text-[10px] font-medium ${cls}`}>
-      {PF_LABEL[pf]}
-    </span>
-  )
-}
-
-export default MultiChannelPage
