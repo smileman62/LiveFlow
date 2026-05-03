@@ -19,12 +19,10 @@ type RealtimeAnalysisPanelProps = {
   onSend: () => void;
 };
 
-const TOP_FIVE = [
+const TOP_KEYWORDS = [
   { rank: 1, word: "가방", count: 428 },
   { rank: 2, word: "예뻐요", count: 312 },
   { rank: 3, word: "가격", count: 198 },
-  { rank: 4, word: "배송", count: 156 },
-  { rank: 5, word: "할인", count: 134 },
 ];
 
 function IconEmoji() {
@@ -168,7 +166,7 @@ export default function RealtimeAnalysisPanel({
   const [autoRotate, setAutoRotate] = useState(false);
   const [autoSeconds, setAutoSeconds] = useState(30);
 
-  const sortedKeywords = useMemo(() => TOP_FIVE, []);
+  const sortedKeywords = useMemo(() => TOP_KEYWORDS, []);
 
   useEffect(() => {
     if (!autoRotate) return;
@@ -180,7 +178,7 @@ export default function RealtimeAnalysisPanel({
   }, [autoRotate, autoSeconds]);
 
   return (
-    <section className="flex h-200 min-w-0 w-full flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-md ring-1 ring-slate-900/5 md:min-h-[420px]">
+    <section className="flex h-170 min-w-0 w-full flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-md ring-1 ring-slate-900/5 md:min-h-[420px]">
       <div className="flex min-h-0 flex-col">
         <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
           <span className="text-[15px] font-semibold text-slate-900">
@@ -290,25 +288,30 @@ export default function RealtimeAnalysisPanel({
 
         <div className="overflow-y-auto p-4">
           {subTab === "keywords" && (
-            <div className="flex flex-col gap-2">
-              {sortedKeywords.map((k) => (
-                <div
-                  key={k.word}
-                  className="flex w-full min-w-0 items-center justify-between gap-3 rounded-xl border border-indigo-100 bg-white px-4 py-3 shadow-sm ring-1 ring-indigo-50"
-                >
-                  <div className="flex min-w-0 flex-1 items-center gap-3">
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-xs font-bold tabular-nums text-indigo-600">
-                      {k.rank}
-                    </span>
-                    <span className="min-w-0 truncate text-[15px] font-semibold text-slate-950">
-                      {k.word}
+            <div>
+              <h3 className="mb-2 text-base font-semibold text-slate-900">
+                실시간 상위 키워드
+              </h3>
+              <div className="flex flex-col gap-2">
+                {sortedKeywords.map((k) => (
+                  <div
+                    key={k.word}
+                    className="flex w-full min-w-0 items-center justify-between gap-3 rounded-xl border border-indigo-100 bg-white px-4 py-3 shadow-sm ring-1 ring-indigo-50"
+                  >
+                    <div className="flex min-w-0 flex-1 items-center gap-3">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-xs font-bold tabular-nums text-indigo-600">
+                        {k.rank}
+                      </span>
+                      <span className="min-w-0 truncate text-[15px] font-semibold text-slate-950">
+                        {k.word}
+                      </span>
+                    </div>
+                    <span className="shrink-0 tabular-nums text-sm font-semibold text-indigo-600">
+                      {k.count}회
                     </span>
                   </div>
-                  <span className="shrink-0 tabular-nums text-sm font-semibold text-indigo-600">
-                    {k.count}회
-                  </span>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           )}
 
