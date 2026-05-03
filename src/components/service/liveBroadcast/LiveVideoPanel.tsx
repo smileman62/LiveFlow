@@ -76,60 +76,56 @@ export default function LiveVideoPanel({ viewers, voiceTranscript }: LiveVideoPa
   const [playing, setPlaying] = useState(true)
 
   return (
-    <section className="overflow-hidden rounded-xl border border-slate-200/80 bg-black shadow-md ring-1 ring-black/5">
-      <div className="grid aspect-video w-full place-items-center bg-slate-900">
-        <div className="relative inline-block max-h-full max-w-full justify-self-center">
-          <img
-            src={LIVE_VIDEO_SRC}
-            alt="라이브 방송 화면"
-            className="block max-h-full max-w-full h-auto w-auto object-contain object-center opacity-95"
-            width={400}
-            height={225}
-            decoding="async"
-          />
-          <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-black/20" />
+    <section className="min-w-0 overflow-hidden rounded-xl border border-slate-200/80 bg-black shadow-md ring-1 ring-black/5">
+      <div className="relative aspect-video w-full overflow-hidden bg-slate-900">
+        <img
+          src={LIVE_VIDEO_SRC}
+          alt="라이브 방송 화면"
+          className="absolute inset-0 h-full w-full object-cover object-center opacity-95"
+          decoding="async"
+        />
+        <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-black/20" />
 
-          <div className="absolute left-3 top-3 flex items-center gap-2">
-            <span className="inline-flex items-center gap-1 rounded bg-red-600 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white shadow">
-              LIVE
-            </span>
-            <span className="inline-flex items-center gap-1 rounded-full bg-black/55 px-2.5 py-1 text-[11px] font-medium text-white backdrop-blur-sm">
-              <IconEye />
-              {viewers.toLocaleString()}
-            </span>
+        <div className="absolute left-3 top-3 flex items-center gap-2">
+          <span className="inline-flex items-center gap-1 rounded bg-red-600 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white shadow">
+            LIVE
+          </span>
+          <span className="inline-flex items-center gap-1 rounded-full bg-black/55 px-2.5 py-1 text-[11px] font-medium text-white backdrop-blur-sm">
+            <IconEye />
+            {viewers.toLocaleString()}
+          </span>
+        </div>
+
+        <div className="absolute inset-x-0 bottom-0 space-y-0">
+          <div className="mx-3 mb-2 rounded-lg bg-black/65 px-3 py-2 text-xs text-white/95 backdrop-blur-md">
+            <div className="mb-1 flex items-center gap-2 font-medium text-indigo-200">
+              <IconMic />
+              음성 분석
+            </div>
+            <p className="leading-relaxed text-violet-100">{voiceTranscript}</p>
           </div>
 
-          <div className="absolute inset-x-0 bottom-0 space-y-0">
-            <div className="mx-3 mb-2 rounded-lg bg-black/65 px-3 py-2 text-xs text-white/95 backdrop-blur-md">
-              <div className="mb-1 flex items-center gap-2 font-medium text-indigo-200">
-                <IconMic />
-                음성 분석
+          <div className="flex items-center gap-3 bg-black/70 px-3 py-2.5 text-white backdrop-blur-md">
+            <button
+              type="button"
+              onClick={() => setPlaying((p) => !p)}
+              className="rounded-lg p-1.5 hover:bg-white/10"
+              aria-label={playing ? '일시정지' : '재생'}
+            >
+              {playing ? <IconPause /> : <IconPlay />}
+            </button>
+            <button type="button" className="rounded-lg p-1.5 hover:bg-white/10" aria-label="볼륨">
+              <IconVolume />
+            </button>
+            <div className="flex min-w-0 flex-1 items-center gap-2">
+              <div className="h-1 flex-1 overflow-hidden rounded-full bg-white/20">
+                <div className="h-full w-[72%] rounded-full bg-red-500" />
               </div>
-              <p className="leading-relaxed text-violet-100">{voiceTranscript}</p>
+              <span className="shrink-0 text-[10px] font-semibold text-red-400">LIVE</span>
             </div>
-
-            <div className="flex items-center gap-3 bg-black/70 px-3 py-2.5 text-white backdrop-blur-md">
-              <button
-                type="button"
-                onClick={() => setPlaying((p) => !p)}
-                className="rounded-lg p-1.5 hover:bg-white/10"
-                aria-label={playing ? '일시정지' : '재생'}
-              >
-                {playing ? <IconPause /> : <IconPlay />}
-              </button>
-              <button type="button" className="rounded-lg p-1.5 hover:bg-white/10" aria-label="볼륨">
-                <IconVolume />
-              </button>
-              <div className="flex min-w-0 flex-1 items-center gap-2">
-                <div className="h-1 flex-1 overflow-hidden rounded-full bg-white/20">
-                  <div className="h-full w-[72%] rounded-full bg-red-500" />
-                </div>
-                <span className="shrink-0 text-[10px] font-semibold text-red-400">LIVE</span>
-              </div>
-              <button type="button" className="rounded-lg p-1.5 hover:bg-white/10" aria-label="전체화면">
-                <IconFullscreen />
-              </button>
-            </div>
+            <button type="button" className="rounded-lg p-1.5 hover:bg-white/10" aria-label="전체화면">
+              <IconFullscreen />
+            </button>
           </div>
         </div>
       </div>
