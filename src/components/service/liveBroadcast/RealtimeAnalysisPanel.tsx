@@ -23,6 +23,8 @@ const TOP_KEYWORDS = [
   { rank: 1, word: "가방", count: 428 },
   { rank: 2, word: "예뻐요", count: 312 },
   { rank: 3, word: "가격", count: 198 },
+  { rank: 4, word: "배송", count: 156 },
+  { rank: 5, word: "할인", count: 134 },
 ];
 
 function IconEmoji() {
@@ -178,7 +180,7 @@ export default function RealtimeAnalysisPanel({
   }, [autoRotate, autoSeconds]);
 
   return (
-    <section className="flex h-170 min-w-0 w-full flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-md ring-1 ring-slate-900/5 md:min-h-[420px]">
+    <section className="flex h-200 min-w-0 w-full flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-md ring-1 ring-slate-900/5 md:min-h-[420px]">
       <div className="flex min-h-0 flex-col">
         <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
           <span className="text-[15px] font-semibold text-slate-900">
