@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import ServicePageHeader from '../../components/service/ServicePageHeader'
 
 const TABS = ['방송 대본', 'FAQ', '체크리스트', '공지문'] as const
 
@@ -18,7 +19,9 @@ function BroadcastPrepPage() {
   }
 
   return (
-    <div className="p-6 md:p-8">
+    <div className="flex min-h-dvh flex-col bg-[#f9fafb]">
+      <ServicePageHeader title="방송 준비" />
+      <div className="min-h-0 flex-1 overflow-y-auto p-6 md:p-8">
       <div className="mx-auto max-w-[680px] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
         <div className="flex items-center gap-2.5 bg-[#1A3C6E] px-5 py-3 text-white">
           <span className="text-[15px] font-medium">Live Flow</span>
@@ -112,6 +115,7 @@ function BroadcastPrepPage() {
             </div>
           )}
         </div>
+      </div>
       </div>
     </div>
   )

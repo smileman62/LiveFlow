@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from 'react'
+import ServicePageHeader from '../../components/service/ServicePageHeader'
 
 type Period = 'week' | 'month' | '3month'
 
@@ -37,7 +38,9 @@ function SalesDashboardPage() {
   const d = PERIOD_DATA[period]
 
   return (
-    <div className="p-6 md:p-8">
+    <div className="flex min-h-dvh flex-col bg-[#f9fafb]">
+      <ServicePageHeader title="판매 대시보드" />
+      <div className="min-h-0 flex-1 overflow-y-auto p-6 md:p-8">
       <div className="mx-auto max-w-5xl overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-2 bg-[#1A3C6E] px-4 py-2.5 text-white">
           <span className="text-sm font-medium">Live Flow | 멀티채널 판매 대시보드</span>
@@ -128,6 +131,7 @@ function SalesDashboardPage() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   )
